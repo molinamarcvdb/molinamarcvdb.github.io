@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DP-KFC — Marc Molina Van den Bosch</title>
+<meta name="description" content="DP-KFC: Data-Free Preconditioning for Privacy-Preserving Deep Learning. The Fisher information of a network decouples from its data — synthetic-noise probing builds KFAC preconditioners that beat DP-SGD at ε ≤ 3 without private or public data.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0b0d'/%3E%3Ctext x='50' y='68' font-size='58' font-family='monospace' font-weight='bold' fill='%235eead4' text-anchor='middle'%3Eε%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="../assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">MARC MOLINA<span>.</span></a>
+    <div class="nav__links">
+      <a href="../index.html#research">Research</a>
+      <a href="../index.html#publications">Publications</a>
+      <a class="nav__cv" href="../assets/marc-molina-cv.pdf" target="_blank" rel="noopener">CV ↗</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article wrap">
+  <a class="article__back" href="../index.html#research">← Research</a>
+
+  <div class="article__tag">ICML 2026</div>
+  <h1 class="article__title">DP-KFC: data-free preconditioning for privacy-preserving deep learning</h1>
+  <p class="article__lede">
+    Deep networks have highly anisotropic loss landscapes; DP-SGD injects isotropic noise.
+    Fixing that mismatch usually costs private data or public data. It turns out the geometry
+    was never in the data — it's in the architecture.
+  </p>
+
+  <div class="article__meta">
+    <span>Venue · <b>ICML 2026</b></span>
+    <span>Area · <b>Private optimisation · KFAC</b></span>
+    <span>At · <b>CERN</b></span>
+    <span><a href="../assets/papers/dp-kfc.pdf" target="_blank" rel="noopener">Download PDF ↓</a></span>
+  </div>
+
+  <div class="prose">
+    <h2>The geometric mismatch</h2>
+    <p>
+      DP-SGD earns its guarantee with two spherical operations: clip every per-sample gradient to
+      a global ℓ₂ ball, then add isotropic Gaussian noise. But loss landscapes are anything but
+      spherical — curvature varies by orders of magnitude across parameter directions. The result
+      is an <strong>isotropy mismatch</strong>: low-sensitivity directions drown in noise while
+      high-sensitivity ones are over-clipped, producing wildly heterogeneous signal-to-noise
+      ratios across layers. In a transformer trained with standard DP-SGD, some layers' signal
+      simply collapses.
+    </p>
+
+    <h2>Why the standard escapes fail</h2>
+    <p>
+      The classical answer is preconditioning: rescale updates by curvature. In a private
+      setting, both ways of estimating that curvature are compromised:
+    </p>
+    <ul>
+      <li><strong>From private data</strong> — every statistic the preconditioner needs is a query
+        against the data, so it either consumes a serious share of the privacy budget or arrives
+        so noisy that it destabilises the update more than it helps.</li>
+      <li><strong>From public data</strong> — the precondition-then-privatise strategies lean on a
+        public proxy dataset, which introduces unquantified bias under distribution shift, fails
+        precisely in the specialised domains where DP matters most (there is no "public
+        ImageNet" for mammograms), and complicates privacy auditing.</li>
+    </ul>
+
+    <div class="callout">
+      <div class="callout__label">The insight</div>
+      <p>
+        The Fisher Information Matrix decouples into <strong>architectural sensitivity</strong> —
+        recoverable by probing the network with synthetic noise — and <strong>input
+        correlations</strong> — approximable from modality-level frequency statistics. Neither
+        component needs the private data. Mean-field theory makes this precise: the trace of each
+        layer's Fisher block is governed by depth, width, initialisation, and nonlinearity —
+        properties of the architecture, not the dataset.
+      </p>
+    </div>
+
+    <h2>The method</h2>
+    <p>
+      <strong>DP-KFC</strong> constructs KFAC preconditioners by probing the network with
+      structured synthetic inputs that carry no privacy cost. For images, that structure is
+      <strong>pink noise</strong>: natural images universally follow a 1/f power spectrum, so
+      colored noise with the same spectral decay reproduces the local and global correlations a
+      convolution or attention layer actually sees. For text, structured random token sequences
+      play the same role. Labels are sampled uniformly at random — KFAC's factors depend on error
+      magnitudes, not label correctness.
+    </p>
+    <p>
+      A forward and backward pass over the synthetic batch yields per-layer Kronecker factors;
+      eigendecomposition and damping give the inverse-square-root preconditioner. Applied to
+      gradients <em>before</em> clipping and noising — the scale-then-privatise principle — it
+      makes the private update approximately isotropic, so DP-SGD's spherical clipping and
+      spherical noise finally match the geometry they operate in. The privacy analysis is
+      untouched: nothing in the preconditioner ever saw the data.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+      In strong privacy regimes (<strong>ε ≤ 3</strong>), DP-KFC consistently outperforms DP-SGD
+      and adaptive baselines across modalities — CNNs and transformers, vision and text. Layer-wise
+      SNR profiles show it matching the geometry of data-dependent preconditioners without
+      touching any external data. And it <strong>matches private-data preconditioners while
+      public-data proxies degrade by up to 4.8%</strong> under domain mismatch — the curvature
+      really can be estimated without spending budget or importing distribution shift.
+    </p>
+    <p>
+      That last comparison is the practical point: in regulated domains like medical imaging,
+      where public proxies don't exist and every ε counts, data-free is not a convenience — it is
+      the only preconditioning that doesn't undermine the guarantee it serves. A companion line
+      of work (MICCAI 2026, under review) pushes the same architecture-driven principle into
+      sample-efficient differentially private medical image segmentation.
+    </p>
+  </div>
+
+  <div class="article__nav">
+    <a href="synthetic-data.html">← Synthetic data</a>
+    <a href="async-distributed-dp.html">The Missing Sampler →</a>
+  </div>
+</article>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© 2026 Marc Molina Van den Bosch</span>
+    <span><a href="../index.html">← back to home</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

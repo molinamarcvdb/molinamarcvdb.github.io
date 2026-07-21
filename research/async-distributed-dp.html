@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Missing Sampler — Marc Molina Van den Bosch</title>
+<meta name="description" content="The Missing Sampler: Distributed Privacy Accounting for Asynchronous Federated Learning. Buffered async FL lets fast clients accumulate up to 97× the reported privacy loss — a privatiser committee restores per-client accounting and subsampling amplification.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0b0d'/%3E%3Ctext x='50' y='68' font-size='58' font-family='monospace' font-weight='bold' fill='%235eead4' text-anchor='middle'%3Eε%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="../assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">MARC MOLINA<span>.</span></a>
+    <div class="nav__links">
+      <a href="../index.html#research">Research</a>
+      <a href="../index.html#publications">Publications</a>
+      <a class="nav__cv" href="../assets/marc-molina-cv.pdf" target="_blank" rel="noopener">CV ↗</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article wrap">
+  <a class="article__back" href="../index.html#research">← Research</a>
+
+  <div class="article__tag">NeurIPS 2026 · under review</div>
+  <h1 class="article__title">The Missing Sampler: distributed privacy accounting for asynchronous federated learning</h1>
+  <p class="article__lede">
+    Buffered asynchronous FL reports one system-level ε for everyone — but fast clients can
+    accumulate up to 97× the reported privacy loss while slow clients barely spend theirs.
+    The sampler the analysis assumes was never in the protocol. We put it there.
+  </p>
+
+  <div class="article__meta">
+    <span>Venue · <b>NeurIPS 2026 (under review)</b></span>
+    <span>Area · <b>Distributed DP · Secure aggregation</b></span>
+    <span>At · <b>CERN × UPF</b></span>
+    <span><a href="../assets/papers/the-missing-sampler.pdf" target="_blank" rel="noopener">Download PDF ↓</a></span>
+  </div>
+
+  <div class="prose">
+    <h2>The setting</h2>
+    <p>
+      Differentially private federated learning bounds what a trained model can reveal about any
+      single client. In the <strong>distributed DP</strong> model, each client adds a share of
+      discrete Gaussian noise to its clipped update, and secure aggregation guarantees the server
+      only ever observes the noised sum — central-DP-level utility without central-DP-level trust.
+      The resulting guarantee is reported as one system-wide (ε, δ) bound, computed under a
+      quiet assumption: <strong>every client participates with the same probability in every
+      aggregation</strong>.
+    </p>
+    <p>
+      Buffered asynchronous FL — the throughput-friendly design real deployments actually use —
+      breaks exactly that assumption. The server closes each aggregation with the first
+      <em>K</em> responses to arrive. Whoever is fastest gets in; whoever is slow rarely does.
+    </p>
+
+    <h2>The problem: under- and over-privatisation</h2>
+    <p>
+      Participation rates under latency-biased buffering are heavy-tailed: the fastest clients
+      appear in orders of magnitude more aggregations than the slowest. But the noise each client
+      commits is calibrated to the <em>average</em> participation rate, fixed before training.
+      So fast clients spend privacy far beyond the reported budget — in our simulations,
+      accumulating <strong>up to 97× the reported privacy loss</strong> — while slow clients
+      contribute noise for budget they never spend.
+    </p>
+
+    <div class="callout">
+      <div class="callout__label">Why it's worse than an accounting bug</div>
+      <p>
+        Device speed, availability windows, and user behaviour correlate with population
+        subgroups. Latency-biased participation can therefore align with demographics — uniform
+        accounting then hides a form of <strong>disparate vulnerability</strong>: the clients who
+        participate most often are precisely the ones least protected by the reported guarantee.
+      </p>
+    </div>
+
+    <p>
+      The natural repair — track privacy loss per client and retire clients approaching their
+      budget — cannot be left to the server: a malicious server could under-report fast clients'
+      counts, keep them past their budget, or pick the aggregated subset adversarially. Clients
+      cannot self-report either. The accounting has to live with a party that is neither.
+    </p>
+
+    <h2>The fix: a privatiser committee</h2>
+    <p>
+      Modern one-shot secure aggregation protocols already maintain a small persistent committee
+      of nodes. We repurpose those nodes as <strong>privatisers</strong>. They observe only
+      aggregate metadata, and they do four things the server must not be trusted to do:
+    </p>
+    <ul>
+      <li>maintain <strong>per-client Gaussian-DP ledgers</strong> of actual — not assumed — participation;</li>
+      <li>enforce <strong>retirement through a safety cap</strong>, so any spending policy provably keeps every client at ε<sub>i</sub> ≤ ε<sub>target</sub>;</li>
+      <li>inject the <strong>distributed noise</strong>, chosen <em>after</em> the buffer is observed, so it matches real participation;</li>
+      <li><strong>threshold-decrypt only authorised aggregates</strong> — no budget-compliant subset, no decryption.</li>
+    </ul>
+    <p>
+      The same committee supplies the protocol's missing piece — the sampler. Using a public
+      randomness beacon, it draws a uniformly random <em>k′</em>-of-<em>K</em> subset from each
+      latency-biased buffer. From the privacy adversary's view, every buffered client now appears
+      in the released aggregate with probability exactly <em>k′/K</em>, independent of identity
+      or latency — which restores, <strong>for the first time in asynchronous DP-FL, rigorous
+      privacy amplification by subsampling</strong>, with the buffer size as a wall-clock-versus-noise
+      deployment knob.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+      On CIFAR-10, AG News, and DBpedia, committee subsampling recovers
+      <strong>up to +38 percentage points of accuracy at matched privacy budget</strong> —
+      most of the utility DP noise had taken. The per-client ledger is not optional: even under
+      the strongest amplification setting, standard accounting still violates the target budget
+      by at least <strong>1.4×</strong>. A parameter-space canary audit confirms the framework
+      removes the disparate vulnerability that latency-biased participation induces.
+    </p>
+
+    <h2>Why it matters</h2>
+    <p>
+      Asynchrony is what you reach for the moment devices are heterogeneous and the slowest
+      client cannot set the pace — that is most real deployments. If the reported ε is wrong in
+      exactly that regime, deployed systems are making a promise they do not keep, and making it
+      unevenly across their users. A guarantee that only holds under an idealised schedule is not
+      a guarantee; it is a modelling assumption wearing one.
+    </p>
+  </div>
+
+  <div class="article__nav">
+    <a href="dp-kfc.html">← DP-KFC</a>
+    <a href="synthetic-data.html">Synthetic data →</a>
+  </div>
+</article>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© 2026 Marc Molina Van den Bosch</span>
+    <span><a href="../index.html">← back to home</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

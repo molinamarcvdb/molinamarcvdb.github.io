@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic data hospitals can share — Marc Molina Van den Bosch</title>
+<meta name="description" content="A multimodally-conditioned generative pipeline producing anonymised medical images for cross-hospital sharing, and a multifaceted evaluation framework spanning quality, diversity, and memorisation.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0b0d'/%3E%3Ctext x='50' y='68' font-size='58' font-family='monospace' font-weight='bold' fill='%235eead4' text-anchor='middle'%3Eε%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="../assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#0a0b0d">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="../index.html">MARC MOLINA<span>.</span></a>
+    <div class="nav__links">
+      <a href="../index.html#research">Research</a>
+      <a href="../index.html#publications">Publications</a>
+      <a class="nav__cv" href="../assets/marc-molina-cv.pdf" target="_blank" rel="noopener">CV ↗</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article wrap">
+  <a class="article__back" href="../index.html#research">← Research</a>
+
+  <div class="article__tag">Applied · deployed · Kantonsspital Aarau</div>
+  <h1 class="article__title">Synthetic data hospitals can actually share</h1>
+  <p class="article__lede">
+    A generative pipeline that produces anonymised, multimodally-conditioned medical images —
+    and the evaluation framework that proves the images are useful without being memorised.
+  </p>
+
+  <div class="article__meta">
+    <span>At · <b>Kantonsspital Aarau</b></span>
+    <span>Related · <b>NeurIPS 2024 Workshop · RSNA 2024</b></span>
+    <span>Award · <b>Novartis Diplompreis</b></span>
+  </div>
+
+  <div class="prose">
+    <h2>The problem is not the model, it's the sharing</h2>
+    <p>
+      Hospitals hold the data that would make medical machine learning work, and they cannot share
+      it. Not because the technology is missing but because the governance is, correctly, immovable:
+      patient records do not leave the institution. Every multi-centre study, every attempt to train
+      on a population larger than one hospital's catchment, runs into the same wall.
+    </p>
+    <p>
+      Synthetic data is the obvious escape hatch, and it is usually oversold. Generate images that
+      look like patient scans, share those instead, everyone wins. The reason it mostly does not
+      work is that <strong>"looks like" is doing far too much load-bearing work</strong> in that
+      sentence — in two directions at once.
+    </p>
+
+    <h2>Two failure modes, pulling opposite ways</h2>
+    <p>
+      A synthetic dataset can fail by being <strong>too different</strong> from the real thing:
+      pretty images with the wrong statistics, on which models train happily and then collapse on
+      real patients. This is the failure everyone tests for, because FID is easy to compute.
+    </p>
+    <p>
+      It can also fail by being <strong>too close</strong>. A generative model that has memorised
+      its training set will reproduce real patients' anatomy in its outputs. The dataset looks
+      excellent by every distributional metric — it scores well precisely <em>because</em> it is
+      leaking — and you have not anonymised anything. You have built a lossy, deniable copy of the
+      records you were not allowed to share, and put a certificate on it.
+    </p>
+
+    <div class="callout">
+      <div class="callout__label">The core tension</div>
+      <p>
+        Fidelity and privacy are measured by the same quantity pointed in opposite directions. Any
+        evaluation that reports only one of them can be satisfied by a model that is failing
+        catastrophically at the other.
+      </p>
+    </div>
+
+    <h2>The pipeline</h2>
+    <p>
+      I built a secure, privacy-preserving synthetic image pipeline spanning
+      <strong>GANs, diffusion models, and latent consistency models</strong>, with
+      <strong>multimodal conditioning</strong> so generation is steerable rather than a lottery —
+      you specify the clinical characteristics you need and get a cohort with those properties,
+      instead of sampling until something useful appears.
+    </p>
+    <p>
+      It operates on anonymised data and targets two concrete goals: <strong>cross-hospital data
+      sharing</strong>, and <strong>training</strong> on the result. The RSNA work showed the second
+      goal is real — synthetic generation improving downstream performance in multi-centre federated
+      settings, where it also serves to offset the utility that differential privacy takes away.
+    </p>
+
+    <h2>The evaluation framework</h2>
+    <p>
+      This is the part that makes the pipeline defensible, and it was the subject of my MSc thesis
+      (<em>Novartis Industry Diplompreis</em>). Rather than a single score, it is multifaceted by
+      construction, spanning:
+    </p>
+    <ul>
+      <li><strong>Quality</strong> — are the images clinically plausible, not merely photorealistic?</li>
+      <li><strong>Diversity</strong> — does the model cover the distribution, or has it quietly collapsed onto a comfortable mode?</li>
+      <li><strong>Memorisation</strong> — quantified directly, as its own first-class axis, rather than assumed away.</li>
+    </ul>
+    <p>
+      The memorisation axis became its own line of work: a
+      <strong>memorisation detection benchmark for generative image models</strong>, presented at the
+      <strong>NeurIPS 2024 Safe Generative AI Workshop</strong>. If you are going to claim a
+      synthetic dataset is safe to share, the claim has to be measured, and it has to be measured
+      against a benchmark that was not designed by the person making the claim.
+    </p>
+
+    <h3>Putting experts in the loop</h3>
+    <p>
+      Automated metrics agree with clinical judgement right up until they don't. I built and
+      deployed a web platform running <strong>expert Turing tests</strong> — clinicians
+      distinguishing real scans from synthetic ones — to align the generative models against human
+      judgement and to keep the automated metrics honest about what they were actually measuring.
+    </p>
+
+    <h2>Where it connects</h2>
+    <p>
+      This thread is not separate from the differential privacy work; it is the other half of it.
+      DP bounds what a model can leak. Memorisation auditing measures what a model
+      <em>did</em> leak. One is a guarantee, the other is evidence, and a deployment that wants to
+      be trusted with patient data needs both.
+    </p>
+  </div>
+
+  <div class="article__nav">
+    <a href="async-distributed-dp.html">← Async privacy accounting</a>
+    <a href="dp-kfc.html">Second-order optimisation under DP →</a>
+  </div>
+</article>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© 2026 Marc Molina Van den Bosch</span>
+    <span><a href="../index.html">← back to home</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
