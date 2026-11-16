@@ -25,7 +25,7 @@ See `assets/js/noise.js`.
 ```
 index.html                        landing: hero, about, research, publications, experience, kosmico, contact
 research/
-  async-distributed-dp.html       NeurIPS 2026 (under review)
+  async-distributed-dp.html       PoPETs (under review)
   dp-kfc.html                     ICML 2026 + MICCAI 2026
   synthetic-data.html             KSA applied work
 assets/

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marc Molina Van den Bosch — Privacy Engineer &amp; ML Researcher</title>
-<meta name="description" content="Privacy engineer and machine learning researcher at CERN. Differential privacy, private federated learning, secure aggregation, and privacy-preserving generative models.">
+<meta name="description" content="Privacy engineer and machine learning researcher at CERN, technical co-founder of Kosmico. Differential privacy, private federated learning, secure aggregation, and privacy-preserving generative models.">
 <meta name="author" content="Marc Molina Van den Bosch">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Marc Molina Van den Bosch — Privacy Engineer &amp; ML Researcher">
-<meta property="og:description" content="Differential privacy, private federated learning, secure aggregation. Industrial PhD researcher at CERN.">
+<meta property="og:description" content="Differential privacy, private federated learning, secure aggregation. Industrial PhD researcher at CERN, technical co-founder of Kosmico.">
 <meta property="og:url" content="https://molinamarcvdb.github.io/">
 <meta property="og:image" content="https://molinamarcvdb.github.io/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,7 +20,7 @@
 
 <link rel="preload" href="assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=6">
 </head>
 <body>
 
@@ -30,8 +30,9 @@
     <div class="nav__links">
       <a href="#about">About</a>
       <a href="#research">Research</a>
-      <a href="#publications">Publications</a>
       <a href="#experience">Experience</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
       <a class="nav__cv" href="assets/marc-molina-cv.pdf" target="_blank" rel="noopener">CV ↗</a>
     </div>
   </div>
@@ -39,7 +40,7 @@
 
 <main class="board-wrap" id="top">
 
-  <!-- ======================= HERO BAND ======================= -->
+  <!-- ======================= HERO ======================= -->
   <header class="hero">
     <h1 class="hero__title">Marc Molina<br>Van den Bosch</h1>
 
@@ -53,112 +54,115 @@
           <div class="eps__thumb" id="epsThumb"></div>
         </div>
       </div>
-      <canvas id="nameCanvas" role="img" aria-label="Marc Molina Van den Bosch"></canvas>
+      <canvas id="nameCanvas" role="img" aria-label="Marc Molina Van den Bosch, assembled by secure aggregation of five clients' masked shares and released with Laplace noise"></canvas>
+    </div>
+
+    <div class="sa" aria-live="polite">
+      <div class="sa__bar">
+        <ol class="sa__steps">
+          <li class="sa__step" data-sa-step="0"><span class="sa__n">01</span>Mask</li>
+          <li class="sa__step" data-sa-step="1"><span class="sa__n">02</span>Aggregate</li>
+          <li class="sa__step" data-sa-step="2"><span class="sa__n">03</span>Release</li>
+        </ol>
+        <button class="sa__replay" id="saReplay" type="button" aria-label="Replay the secure aggregation">↻<span class="sa__replay-t"> replay</span></button>
+      </div>
     </div>
 
     <div class="hero__id">
       <p class="hero__role"><strong>Privacy Engineer</strong> &amp; Machine Learning Researcher</p>
       <p class="hero__affil">
         Industrial PhD @ <a href="https://home.cern/" target="_blank" rel="noopener">CERN</a>
-        × <a href="https://www.upf.edu/" target="_blank" rel="noopener">Universitat Pompeu Fabra</a>
-        · Geneva, Switzerland
+        × <a href="https://www.upf.edu/" target="_blank" rel="noopener">UPF</a>
+        · Co-founder @ <a class="kmark" href="https://kosmico.ai" target="_blank" rel="noopener"><img src="assets/kosmico.svg" alt="" width="14" height="13">Kosmico</a>
+        · Geneva
       </p>
     </div>
   </header>
 
-  <!-- ======================= BOARD ======================= -->
-  <div class="board" data-stagger>
+  <!-- ======================= SECTIONS ======================= -->
+  <div class="flow">
 
-    <section class="panel span-4 reveal" id="about">
+    <section class="sec reveal" id="about">
       <div class="panel__label">About</div>
-      <p class="panel__text">
-        I work on the part of machine learning where the guarantee matters as much as the
-        accuracy: <strong>differential privacy</strong>, <strong>secure aggregation</strong>, and
-        <strong>federated learning</strong>, composed into distributed-DP systems with end-to-end
-        guarantees — plus second-order optimisation that recovers the utility DP-SGD gives away.
+      <p class="sec__lede">
+        I build machine learning systems where the guarantee matters as much as the accuracy.
       </p>
       <p class="panel__text">
-        Alongside the theory, I ship: <strong>CAFEIN</strong>, CERN's federated learning platform;
-        a synthetic-data pipeline hospitals actually share at Kantonsspital Aarau; and
-        <a href="https://kosmico.ai" target="_blank" rel="noopener">Kosmico</a>, a collaborative
-        AI-native research platform.
+        My research combines <strong>differential privacy</strong>, <strong>secure aggregation</strong>
+        and <strong>federated learning</strong> into distributed-DP systems with end-to-end, per-client
+        guarantees and no trusted server. I also work on second-order optimisation that wins back the
+        utility DP-SGD loses (first author, ICML 2026).
+      </p>
+      <p class="panel__text">
+        I've worked across industry and healthcare. At CERN I build privacy-enhancing technologies into the
+        <strong>CAFEIN</strong> federated learning platform. Before that I built generative-model
+        pipelines and a radiologist evaluation platform at Kantonsspital Aarau, clinical-trial data tooling at
+        Roche, and stroke decision support at Vall d'Hebron. I'm also the technical co-founder of
+        <a href="https://kosmico.ai" target="_blank" rel="noopener">Kosmico</a>.
       </p>
       <div class="facts">
         <div class="fact"><span class="fact__k">Based in</span><span class="fact__v">Geneva, CH</span></div>
-        <div class="fact"><span class="fact__k">PhD</span><span class="fact__v">CERN × UPF</span></div>
+        <div class="fact"><span class="fact__k">Available</span><span class="fact__v">From early 2027</span></div>
+        <div class="fact"><span class="fact__k">PhD</span><span class="fact__v">CERN × UPF · exp. 2027</span></div>
         <div class="fact"><span class="fact__k">MSc</span><span class="fact__v">FHNW · Novartis Diplompreis</span></div>
-        <div class="fact"><span class="fact__k">BSc</span><span class="fact__v">UPC — Biomedical Eng.</span></div>
-        <div class="fact"><span class="fact__k">Languages</span><span class="fact__v">EN · ES · CA</span></div>
-        <div class="fact"><span class="fact__k">GitHub</span><span class="fact__v"><a href="https://github.com/molinamarcvdb" target="_blank" rel="noopener">@molinamarcvdb</a></span></div>
+        <div class="fact"><span class="fact__k">BSc</span><span class="fact__v">UPC · Biomedical Eng.</span></div>
+        <div class="fact"><span class="fact__k">Languages</span><span class="fact__v">EN · ES · CA · FR B1 · DE A2</span></div>
       </div>
     </section>
 
-    <section class="panel span-5 reveal" id="research">
+    <section class="sec reveal" id="research">
       <div class="panel__label">Research</div>
       <div class="cards cards--stack">
-        <a class="card" href="research/async-distributed-dp.html">
-          <span class="card__tag">NeurIPS 2026 · under review</span>
-          <h3 class="card__title">The Missing Sampler: distributed privacy accounting for async FL</h3>
-          <p class="card__desc">Buffered async FL lets fast clients accumulate up to 97× the reported privacy loss. A privatiser committee restores per-client accounting and subsampling amplification.</p>
-          <span class="card__foot"><span>Distributed DP · Secure aggregation</span><span class="card__arrow">→</span></span>
-        </a>
         <a class="card" href="research/dp-kfc.html">
-          <span class="card__tag">ICML 2026</span>
+          <span class="card__tag">ICML 2026 · first author</span>
           <h3 class="card__title">DP-KFC: data-free preconditioning for private deep learning</h3>
-          <p class="card__desc">A network's optimisation geometry is architectural, not data-borne: probing with structured synthetic noise builds KFAC preconditioners that beat DP-SGD at ε ≤ 3 — no private or public data.</p>
+          <p class="card__desc">A network's optimisation geometry comes from its architecture, not its data. Probing with structured synthetic noise builds KFAC preconditioners that beat DP-SGD and adaptive baselines at ε ≤ 3 across vision and language, with no private or public data.</p>
           <span class="card__foot"><span>KFAC · Mean-field theory · Pink noise</span><span class="card__arrow">→</span></span>
+        </a>
+        <a class="card" href="research/async-distributed-dp.html">
+          <span class="card__tag">PoPETs · under review</span>
+          <h3 class="card__title">The Missing Sampler: distributed privacy accounting for async FL</h3>
+          <p class="card__desc">Buffered async FL lets fast clients accumulate up to 97× the reported privacy loss. A privatiser committee restores per-client accounting and subsampling amplification without a trusted server or TEE, audited with LiRA-style membership inference and canaries at 10³–10⁴ clients.</p>
+          <span class="card__foot"><span>Distributed DP · Secure aggregation</span><span class="card__arrow">→</span></span>
         </a>
         <a class="card" href="research/synthetic-data.html">
           <span class="card__tag card__tag--build">Applied · deployed</span>
           <h3 class="card__title">Synthetic data hospitals can actually share</h3>
-          <p class="card__desc">Multimodally-conditioned generation for cross-hospital sharing, evaluated on quality, diversity, and memorisation.</p>
+          <p class="card__desc">Text-conditioned diffusion, GAN, VQ-/RQ-VAE and autoregressive models on ~5,000 image–report pairs, judged by five radiologists across ~2,500 samples for quality, diversity and memorisation.</p>
           <span class="card__foot"><span>Diffusion · GANs · Leakage audit</span><span class="card__arrow">→</span></span>
         </a>
       </div>
     </section>
 
-    <div class="span-3 stack">
-      <section class="panel reveal" id="contact">
-        <div class="panel__label">Contact</div>
-        <div class="contact-btns">
-          <a class="btn btn--primary btn--block" href="mailto:marcmolinavdb@gmail.com">✉ Email me</a>
-          <a class="btn btn--block" href="https://github.com/molinamarcvdb" target="_blank" rel="noopener">GitHub ↗</a>
-          <a class="btn btn--block" href="assets/marc-molina-cv.pdf" target="_blank" rel="noopener">Download CV ↗</a>
-        </div>
-        <p class="contact-note">Open to conversations about differential privacy, federated systems, and building things that protect the people in the data.</p>
-      </section>
-
-      <section class="panel panel--kosmico reveal" id="kosmico">
-        <div class="panel__label panel__label--build">Building</div>
-        <div class="kosmico__lockup">
-          <img class="kosmico__mark" src="assets/kosmico.svg" alt="Kosmico" width="44" height="41" loading="lazy">
-          <h3 class="kosmico__title">Kosmico</h3>
-        </div>
-        <p class="kosmico__desc">A collaborative, AI-native research platform — built for how research actually gets done.</p>
-        <a class="kosmico__cta" href="https://kosmico.ai" target="_blank" rel="noopener">kosmico.ai ↗</a>
-      </section>
-    </div>
-
-    <section class="panel span-7 reveal" id="experience">
+    <section class="sec reveal" id="experience">
       <div class="panel__label">Experience</div>
       <div class="tl">
         <div class="tl__item tl__item--now">
           <span class="tl__dot"></span>
           <div class="tl__head">
-            <h3 class="tl__role">Industrial PhD Researcher, Private &amp; Federated ML</h3>
-            <span class="tl__date">Apr 2025 — now</span>
+            <h3 class="tl__role tl__role--logo"><img class="tl__logo" src="assets/kosmico.svg" alt="Kosmico logo" width="26" height="24" loading="lazy">Technical Co-founder</h3>
+            <span class="tl__date">Jan 2026 — now</span>
           </div>
-          <p class="tl__org">CERN × Universitat Pompeu Fabra · Geneva</p>
-          <p class="tl__desc">Second-order methods for sample- and user-level DP. Distributed DP combining differential privacy, secure aggregation, and federated learning. CAFEIN platform.</p>
+          <p class="tl__org"><a href="https://kosmico.ai" target="_blank" rel="noopener">Kosmico</a> · unified, collaborative, traceable research</p>
+          <p class="tl__desc">Co-built a research workspace that brings literature, documents, code and AI agents together, across Tauri desktop, Next.js web, Hono APIs and Convex. Real-time collaboration with Yjs, fine-grained sharing with server-enforced roles, approval-gated agent tools, and hash-chained provenance of human and AI activity.</p>
         </div>
         <div class="tl__item tl__item--now">
           <span class="tl__dot"></span>
           <div class="tl__head">
+            <h3 class="tl__role">Industrial PhD Researcher, Privacy-Enhancing Technologies for ML</h3>
+            <span class="tl__date">Apr 2025 — now</span>
+          </div>
+          <p class="tl__org">CERN × Universitat Pompeu Fabra · Geneva</p>
+          <p class="tl__desc">Differential privacy, secure aggregation, privacy accounting and leakage auditing for CERN-led industrial and healthcare collaborations. Implemented user- and sample-level DP and pairwise-masking secure aggregation in CERN's CAFEIN platform. Designing a secure-aggregation protocol for federated analytics at scale, benchmarked against a TEE-based system.</p>
+        </div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__head">
             <h3 class="tl__role">Machine Learning Researcher</h3>
-            <span class="tl__date">Feb 2024 — now</span>
+            <span class="tl__date">Feb 2024 — May 2025</span>
           </div>
           <p class="tl__org">Kantonsspital Aarau · Aarau</p>
-          <p class="tl__desc">Privacy-preserving synthetic image pipeline with multimodal conditioning for cross-hospital sharing; evaluation spanning quality, diversity, and memorisation.</p>
+          <p class="tl__desc">Compared text-conditioned DiT diffusion, GANs, VQ-/RQ-VAEs and next-scale autoregressive models on ~5,000 image–report pairs, training models of nearly 1B parameters on four GPUs. Built an evaluation app in which five radiologists rated ~2,500 samples, and identified which automated metrics track realism, diversity and clinical consistency.</p>
         </div>
         <div class="tl__item">
           <span class="tl__dot"></span>
@@ -167,7 +171,7 @@
             <span class="tl__date">Aug 2023 — Jan 2024</span>
           </div>
           <p class="tl__org">Roche · Basel / Kaiseraugst</p>
-          <p class="tl__desc">Anomaly detection for large-scale clinical-trial wearable and observational data; LLM + RAG system on Azure for trial findings reporting.</p>
+          <p class="tl__desc">Modelled year-long, minute-resolution wearable data alongside labs, visits and outcomes with boosted trees, temporal CNNs and a fine-tuned time-series foundation model to analyse how missing data affects efficacy analyses. Built Kedro/PySpark pipelines with Docker and GitLab CI/CD, plus an Azure LLM/RAG workflow.</p>
         </div>
         <div class="tl__item">
           <span class="tl__dot"></span>
@@ -176,95 +180,124 @@
             <span class="tl__date">Jun 2021 — Aug 2023</span>
           </div>
           <p class="tl__org">Vall d'Hebron Research Institute · Barcelona</p>
-          <p class="tl__desc">Graph U-Net on vessel graphs; cerebral artery and large-vessel-occlusion segmentation on CTA volumes for stroke workflows.</p>
+          <p class="tl__desc">A stroke decision-support pipeline covering CT/CTA vessel segmentation, vessel graphs and GNNs, thrombus characterisation and thrombectomy-outcome prediction. It processes a patient in under five minutes and was evaluated on ~1,000 cases.</p>
         </div>
       </div>
     </section>
 
-    <section class="panel span-5 reveal" id="publications">
+    <section class="sec reveal" id="publications">
       <div class="panel__label">Publications &amp; Awards</div>
-      <div class="pubscroll">
-        <div class="pubs">
-          <div class="pub">
-            <span class="pub__year">2026</span>
-            <div>
-              <p class="pub__title">The Missing Sampler: Distributed Privacy Accounting for Asynchronous Federated Learning</p>
-              <p class="pub__note">Under review · <a class="pub__pdf" href="assets/papers/the-missing-sampler.pdf" target="_blank" rel="noopener">PDF ↓</a></p>
-            </div>
-            <span class="pub__venue pub__venue--hot">NeurIPS</span>
+      <div class="pubs">
+        <div class="pub">
+          <span class="pub__year">2026</span>
+          <div>
+            <p class="pub__title">DP-KFC: Data-Free Preconditioning for Privacy-Preserving Deep Learning</p>
+            <p class="pub__note">First author ·
+              <a class="pub__pdf" href="https://arxiv.org/abs/2605.13418" target="_blank" rel="noopener">arXiv ↗</a> ·
+              <a class="pub__pdf" href="https://github.com/molinamarcvdb/DP-KFC" target="_blank" rel="noopener">Code ↗</a> ·
+              <a class="pub__pdf" href="assets/papers/dp-kfc.pdf" target="_blank" rel="noopener">PDF ↓</a></p>
           </div>
-          <div class="pub">
-            <span class="pub__year">2026</span>
-            <div>
-              <p class="pub__title">DP-KFC: Data-Free Preconditioning for Privacy-Preserving Deep Learning</p>
-              <p class="pub__note"><a class="pub__pdf" href="assets/papers/dp-kfc.pdf" target="_blank" rel="noopener">PDF ↓</a></p>
-            </div>
-            <span class="pub__venue pub__venue--hot">ICML</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2026</span>
-            <div>
-              <p class="pub__title">Architecture-Driven Preconditioning for Sample-Efficient Differentially Private Medical Image Segmentation</p>
-              <p class="pub__note">Under review</p>
-            </div>
-            <span class="pub__venue">MICCAI</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2025</span>
-            <div>
-              <p class="pub__title">The Interplay Between Explainability and Differential Privacy in Federated Healthcare</p>
-              <p class="pub__note">DECAF</p>
-            </div>
-            <span class="pub__venue">MICCAI</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2025</span>
-            <div>
-              <p class="pub__title">Decoder-Free Supervoxel GNN for Accurate Brain-Tumor Localization in Multi-Modal MRI</p>
-              <p class="pub__note">GRAIL</p>
-            </div>
-            <span class="pub__venue">MICCAI</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2024</span>
-            <div>
-              <p class="pub__title">Memorization Detection Benchmark for Generative Image Models</p>
-              <p class="pub__note">Safe Generative AI Workshop</p>
-            </div>
-            <span class="pub__venue">NeurIPS</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2024</span>
-            <div><p class="pub__title">Enhancing federated learning in multicenter studies via synthetic data generation for improved downstream performance</p></div>
-            <span class="pub__venue">RSNA</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2024</span>
-            <div>
-              <p class="pub__title">A multifaceted evaluation framework of generative medical image models</p>
-              <p class="pub__note">Best MSc thesis — Novartis Industry Diplompreis</p>
-            </div>
-            <span class="pub__venue pub__venue--award">Award</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2024</span>
-            <div>
-              <p class="pub__title">Conditional Style-based GANs for Generating Synthetically Private Mammograms</p>
-              <p class="pub__note">Top-5 abstract — KSA Tag der Innovation &amp; Forschung</p>
-            </div>
-            <span class="pub__venue pub__venue--award">Award</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2024</span>
-            <div><p class="pub__title">Evolutionary, Bayesian, and Quasi-Monte Carlo Hyperparameter Tuning</p></div>
-            <span class="pub__venue">ISBM</span>
-          </div>
-          <div class="pub">
-            <span class="pub__year">2023</span>
-            <div><p class="pub__title">Fully automated Large Vessel Occlusion localization and segmentation from CT and CTA</p></div>
-            <span class="pub__venue">ESOC</span>
-          </div>
+          <span class="pub__venue pub__venue--hot">ICML</span>
         </div>
+        <div class="pub">
+          <span class="pub__year">2026</span>
+          <div>
+            <p class="pub__title">The Missing Sampler: Distributed Privacy Accounting for Asynchronous Federated Learning</p>
+            <p class="pub__note">First author · under review · <a class="pub__pdf" href="assets/papers/the-missing-sampler.pdf" target="_blank" rel="noopener">PDF ↓</a></p>
+          </div>
+          <span class="pub__venue pub__venue--hot">PoPETs</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2026</span>
+          <div>
+            <p class="pub__title">Architecture-Driven Preconditioning for Sample-Efficient Differentially Private Medical Image Segmentation</p>
+            <p class="pub__note">Under review</p>
+          </div>
+          <span class="pub__venue">MICCAI</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2025</span>
+          <div>
+            <p class="pub__title">The Interplay Between Explainability and Differential Privacy in Federated Healthcare</p>
+            <p class="pub__note">First author · DECAF</p>
+          </div>
+          <span class="pub__venue">MICCAI</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2025</span>
+          <div>
+            <p class="pub__title">Decoder-Free Supervoxel GNN for Accurate Brain-Tumor Localization in Multi-Modal MRI</p>
+            <p class="pub__note">First author · GRAIL</p>
+          </div>
+          <span class="pub__venue">MICCAI</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2024</span>
+          <div>
+            <p class="pub__title">Memorization Detection Benchmark for Generative Image Models</p>
+            <p class="pub__note">Safe Generative AI Workshop</p>
+          </div>
+          <span class="pub__venue">NeurIPS</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2024</span>
+          <div><p class="pub__title">Enhancing federated learning in multicenter studies via synthetic data generation for improved downstream performance</p></div>
+          <span class="pub__venue">RSNA</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2024</span>
+          <div>
+            <p class="pub__title">A multifaceted evaluation framework of generative medical image models</p>
+            <p class="pub__note">Best MSc thesis · Novartis Industry Diplompreis</p>
+          </div>
+          <span class="pub__venue pub__venue--award">Award</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2024</span>
+          <div>
+            <p class="pub__title">Conditional Style-based GANs for Generating Synthetically Private Mammograms</p>
+            <p class="pub__note">Top-5 abstract · KSA Tag der Innovation &amp; Forschung</p>
+          </div>
+          <span class="pub__venue pub__venue--award">Award</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2024</span>
+          <div><p class="pub__title">Evolutionary, Bayesian, and Quasi-Monte Carlo Hyperparameter Tuning</p></div>
+          <span class="pub__venue">ISBM</span>
+        </div>
+        <div class="pub">
+          <span class="pub__year">2023</span>
+          <div><p class="pub__title">Fully automated Large Vessel Occlusion localization and segmentation from CT and CTA</p></div>
+          <span class="pub__venue">ESOC</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="skills">
+      <div class="panel__label">Skills</div>
+      <div class="skills">
+        <div class="skill">
+          <span class="skill__k">Privacy</span>
+          <span class="skill__v">Differential privacy &amp; accounting · user- and sample-level DP · secure aggregation · federated learning · membership inference (LiRA) · canary audits · memorisation detection</span>
+        </div>
+        <div class="skill">
+          <span class="skill__k">ML</span>
+          <span class="skill__v">PyTorch · JAX · TensorFlow · Hugging Face · generative models · LLM/RAG &amp; agents · second-order optimisation · time series · computer vision · GNNs</span>
+        </div>
+        <div class="skill">
+          <span class="skill__k">Engineering</span>
+          <span class="skill__v">Python · TypeScript · Rust · React/Next.js · Tauri · Hono · Convex · Yjs · Docker · Kubernetes · GitLab CI/CD · PySpark · Kedro · Azure</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec reveal" id="contact">
+      <div class="panel__label">Contact</div>
+      <p class="sec__lede">Let's talk about differential privacy, federated systems, or building things that protect the people in the data.</p>
+      <div class="contact-btns">
+        <a class="btn btn--primary" href="mailto:marcmolinavdb@gmail.com">✉ marcmolinavdb@gmail.com</a>
+        <a class="btn" href="https://github.com/molinamarcvdb" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="assets/marc-molina-cv.pdf" target="_blank" rel="noopener">Download CV ↗</a>
       </div>
     </section>
 
@@ -278,7 +311,8 @@
   </div>
 </footer>
 
-<script src="assets/js/noise.js"></script>
+<script src="assets/js/lattice.js?v=2"></script>
+<script src="assets/js/noise.js?v=7"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
